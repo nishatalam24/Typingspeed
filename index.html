@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typing Test Web</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: "Josefin Sans", sans-serif;
+      }
+
+      .maindiv {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        background: #8e9497;
+        /* background-image: url(back.jpg); */
+        /* background-image: No-repeat; */
+        /* height: 0px; */
+        /* width: 0px; */
+      }
+
+      .centerdiv {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      h1 {
+        text-transform: capitalize;
+        margin-bottom: 30px;
+        color: #ecf0f1;
+        text-shadow: 1px 2px 3px #2980b9;
+        font-size: 2.1rem;
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      textarea {
+        background-color: #444;
+        box-shadow: 0 01px rgba (0, 0, 0, 0.2);
+        border-radius: 10px 10px 0 0;
+        border: 20px solid#01202899;
+        color: white;
+      }
+
+      .mainbtn {
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: 5px solid #000000db;
+        background: #404343;
+        font-size: 1rem;
+      }
+
+      :hover.mainbtn{
+        color: white;
+        background-color: rgba(12, 10, 12, 0.729);
+      }
+
+   
+    </style>
+  </head>
+
+  <body>
+    <div class="maindiv">
+      <div class="centerdiv">
+        <h1>Welcome To Typing Speed Test</h1>
+        <h2 id="msg"></h2>
+        <br />
+        <textarea
+          id="mywords"
+          id=""
+          cols="100"
+          rows="10"
+          placeholder="Remember, be nice"
+        ></textarea>
+        <br />
+        <button id="btn" class="mainbtn">Start</button>
+      </div>
+    </div>
+    <script>
+              const setofwords = [
+                  "Joe waited for the train, but the train was late.",
+
+                  " Because Mary and Samantha arrived at the bus station before noon, I did not see them at the station.While he waited at the train station, Joe realized that the train was late. After they left on the bus, Mary and Samantha realized that Joe was waiting at the train station.",
+
+                  "Harold has terrible luck. Bus shelters collapse on him, he makes his dates vomit, and no matter how many good-luck charms he wears, his luck won't change.",
+
+                  "She flew down and took the roof off the cart. The people with the cart saw her and ran away. Grella laughed, and picked up the cart in her hand."
+              ];
+              const msg = document.getElementById('msg');
+              const typewords = document.getElementById('mywords');
+              const btn = document.getElementById('btn');
+
+              let startTime, endTime;
+
+              const playgame = () => {
+                  let randomNumber = Math.floor(Math.random() * setofwords.length);
+                  msg.innerText = setofwords[randomNumber];
+                  let date = new Date();
+                  startTime = date.getTime();
+                  btn.innerText = "Done";
+              }
+
+              const endplay = () => {
+                  let date = new Date();
+                  endTime = date.getTime();
+                  let totalTime = ((endTime - startTime) / 1000);
+                  console.log(totalTime);
+
+                  let totalstr = typewords.value;
+                  let wordCount = wordCounter(totalstr);
+
+                  let speed = Math.round((wordCount/totalTime)*60);
+                  let finalMsg=" You typed total at "+ speed +" words per minute. ";
+
+      finalMsg += compareWords(msg.innerText,totalstr);
+
+                  msg.innerText = finalMsg;
+              }
+
+
+
+
+      const compareWords = (str1, str2)=>{
+          let words1 = str1.split(" ");
+          let words2 = str2.split(" ");
+          let cnt = 0;
+
+      words1.forEach(function (item,index) {
+          if(item == words2[index])
+          {
+              cnt++;
+          }
+      })
+
+
+
+      let errorWords = (words1.length - cnt);
+      return(cnt +"Correct out of " + words1.length + "Words and the total number of error are "+ errorWords + ".");
+
+
+      }
+
+              const wordCounter = (str) => {
+         let response = str.split(" ").length;
+         return response;
+      }
+
+              btn.addEventListener('click', function () {
+                  if (this.innerText == 'Start') {
+                      typewords.disabled = false;
+                      playgame();
+                  }
+
+
+                  else if (this.innerText == "Done") {
+                      typewords.disabled = true;
+                      btn.innerText = "Start";
+                      endplay();
+                  }
+        })
+    </script>
+  </body>
+</html>
